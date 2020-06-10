@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import Card from '../components/Card/Card'
 
-const API = 'http://www.omdbapi.com/?i=tt3896198&apikey=8f298e7f'
+console.log(process.env.API);
+const API = process.env.API;
 
 class List extends React.Component {
 
@@ -19,7 +20,13 @@ class List extends React.Component {
         const res = await fetch(`${API}&s=batman`)
         const resJSON = await res.json()
         // console.log(resJSON)
-        this.setState({data: resJSON.Search, loading: false})
+        if (resJSON) {
+          this.setState({
+            data: resJSON.Search,
+            loading: false,
+            error: "",
+          });
+        }
     }
 
     async handleSubmit(e){
@@ -39,9 +46,9 @@ class List extends React.Component {
     }
     render() {
 
-        const {data, loading} = this.state;
-        if(loading){
-            return <div>Loading...</div>
+        const { data, loading } = this.state;
+        if (loading) {
+          return <div>Loading...</div>;
         }
 
         return(
